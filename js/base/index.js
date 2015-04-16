@@ -80,7 +80,12 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
                     icon: '<span>p</span>'
                 }
             },
+            link:{},
             other: {
+                removeFormat:{
+                    title: "清除格式",
+                    icon: "eraser"
+                },
                 code: {
                     title: "查看源代码",
                     behavir: function(){    // behavior 是 具体操作
@@ -93,17 +98,12 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
 
     /*加载扩展插件开始*/
     require([
-        "ext/color",
-        "ext/bgcolor",
-        "ext/size",
         "ext/font",
+        "ext/link"
     ],function(){
         [].forEach.call(arguments, function(icon){
             controls.addIcon(icon);
         });
-
-        
-        
         controls.init();
         $(window).trigger("resize");
     });
