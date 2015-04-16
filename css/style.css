@@ -1,0 +1,22 @@
+#editControls{
+    padding: 3px 5px;
+    position: relative;
+}
+#editor, #code{
+    resize:vertical; 
+    overflow:auto; 
+    border:1px solid silver; 
+    box-shadow: inset 0 0 10px silver;
+    padding: 1em;
+}
+
+.bg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+.opacity{
+    opacity: 0;
+}

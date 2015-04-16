@@ -1,0 +1,28 @@
+{
+  "name": "wfEditor",
+  "version": "0.1.0",
+  "description": "editor create by wfQuery",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shy2850/wfEditor"
+  },
+  "keywords": [
+    "editor",
+    "wfQuery",
+    "富文本",
+    "编辑器"
+  ],
+  "author": "shy2850",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shy2850/wfEditor/issues"
+  },
+  "homepage": "https://github.com/shy2850/wfEditor",
+  "dependencies": {
+    "wfquery": "^0.2.0"
+  }
+}
