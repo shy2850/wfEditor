@@ -1,22 +1,6 @@
 define("base/controls",["wf"],function(_require,exports,module){
     var $ = require("wf");
 
-    $.fn.extend({
-        offset: function(){
-            var el = this[0];
-            if( !el ){
-                return {left:0,top:0,width:0,height:0};
-            }else{
-                return {
-                    left: el.offsetLeft,
-                    top : el.offsetTop,
-                    width: el.offsetWidth,
-                    height: el.offsetHeight
-                }
-            }
-        }
-    });
-
     var editor = $("#editor"), 
         code = $("#code"),
         editControls = $("#editControls");
@@ -39,7 +23,7 @@ define("base/controls",["wf"],function(_require,exports,module){
 
 
 
-            behavir.call( controls[g][r], t, t.offset() );
+            behavir.call( controls[g][r], t );
         }else{
             document.execCommand(r, false, null);
         }
@@ -70,9 +54,18 @@ define("base/controls",["wf"],function(_require,exports,module){
             controls = $.extend(controls, ctls);
         },
         addIcon: function(con, group) {
-            group = group || con.group || "other"
-            controls[group] = controls[group] || {};
-            controls[group][con.role] = con;
+            var t = this,
+                callee = this.addIcon;
+            if( $.isArray(con) ){
+                con.forEach(function(c){
+                    callee.call( t, c );
+                });
+                return ;
+            }else{
+                group = group || con.group || "other"
+                controls[group] = controls[group] || {};
+                controls[group][con.role] = con;
+            }
         },
         removeGroup: function(group){
             delete controls[group]
