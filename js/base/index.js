@@ -93,7 +93,10 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
 
     /*加载扩展插件开始*/
     require([
-        "ext/color"
+        "ext/color",
+        "ext/bgcolor",
+        "ext/size",
+        "ext/font",
     ],function(){
         [].forEach.call(arguments, function(icon){
             controls.addIcon(icon);
@@ -102,6 +105,7 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
         
         
         controls.init();
+        $(window).trigger("resize");
     });
     /*加载扩展插件结束*/
 
