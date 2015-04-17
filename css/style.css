@@ -26,3 +26,21 @@
 .opacity{
     opacity: 0;
 }
+
+.fa-font:before{
+    content: "A";
+    text-decoration: underline;
+    font: bold 16px "Times New Roman", "Microsoft Yahei", Arial;
+}
+.fa-background{
+    background: #428bca;
+}
+.fa-background:hover{
+    background: #333;
+}
+.fa-background:before{
+    content: "A";
+    padding: 0 3px;
+    font: bold 16px "Times New Roman", "Microsoft Yahei", Arial;
+    color: #fff;
+}

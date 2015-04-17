@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="libs/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/fontawesome/4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="libs/require.js/2.1.11/require.min.js" data-main="js/script"></script>
+    <script src="libs/require.js/2.1.11/require.min.js"></script>
 </head>
 <body>
     <div class="content">
@@ -15,12 +15,37 @@
                 <div id="editparent">
                     <div id="editControls" class="span9"></div>
                     <div id="editor" class="span9" contenteditable>
-                        <h1>简单的富文本编辑器！</h1>
+<h1>简单的富文本编辑器！</h1>
+<p>基于<a href="https://github.com/shy2850/wfQuery">wfQuery</a>的极简可定制化的富文本编辑器</p>
+
+<p><code>npm install wfeditor</code></p>
+
+<p style="line-height: 1.42857143;">libs: 通过 <a href="http://f2e-server.com/agent.html#save">f2e-server</a> 代理 <a href="http://cdn.code.baidu.com/">百度CDN</a> 获取</p><pre><code>exports["wfeditor.cn"] = {
+    root: "E:\\github\\wfEditor\\",
+    agent:{
+        get:function(path){
+            return {
+                host: "apps.bdimg.com",
+                save: true
+            }
+        }
+    }
+};</code></pre>
                     </div>
-                    <div id="code" class="span9" style="display:none;"></div>
+                    <pre id="code" class="span9" style="display:none;"></pre>
                 </div>
             </div>
         </div>
     </div>
+<script>
+require.config({
+    baseUrl: "js/",
+    paths: {
+        "wf": "../node_modules/wfquery/js/wfQuery"
+    }
+});
+
+require(["base/index"]);
+</script>
 </body>
 </html>
