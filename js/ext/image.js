@@ -58,7 +58,8 @@ define("ext/image",["wf","util/popup","util/frameUpload/index"],function(_requir
                     afterUpload: function(data){
                         imgBtn.html("上传图片");
                         dialog.close();
-                        document.execCommand('InsertImage', false, data.imgUrl);
+                        //document.execCommand('InsertImage', false, data.imgUrl);
+                        selection.focusNode.after( '<img src="'+data.imgUrl+'" alt="'+data.imgUrl+'" />' );
                     }
                 });
             }
