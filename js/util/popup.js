@@ -10,7 +10,7 @@ define("util/popup",["wf"],function(_require,exports,module){
             autoOpen: true,
             close : true,       //显示关闭按钮
             removeOnClose : true,   //关闭时移除DOM
-            blurToClose : true  //是否支持点击半透明层关闭弹框
+            blurToClose : false  //是否支持点击半透明层关闭弹框
         },opt);
 
         var root = $('html'),
@@ -21,7 +21,6 @@ define("util/popup",["wf"],function(_require,exports,module){
             }),
             roc = o.removeOnClose;
 
-        holder.append( close );
         //点击半透明层关闭
         if( o.blurToClose ){
             holder.on('click',function(e){
@@ -34,6 +33,7 @@ define("util/popup",["wf"],function(_require,exports,module){
 
         //添加当前DOM到holder
         inner.html(opt.html);
+        inner.append( close );
         holder.append(inner);
         $(document.body).append( holder );
 
@@ -66,7 +66,7 @@ define("util/popup",["wf"],function(_require,exports,module){
     // confirm|alert 相关 全局操作
     $(document).on('keyup',function(e){
         if( e.keyCode == 27 ){
-            $( '.popup > .popup-close' ).trigger('click');  
+            $( '.popup .popup-close' ).trigger('click');  
         }
     });
 
@@ -79,9 +79,8 @@ define("util/popup",["wf"],function(_require,exports,module){
         }
         var html = '<div class="ui-confirm clearfix">'
                 +'<h1 class="ui-confirm-title">'+(title||'温馨提示')+'</h1>'
-                // +( des ? '<p class="ui-confirm-des">'+des+'</p>' : '' )
-                + info 
-                +(confirmLine||'<p class="clearfix"><a href="javascript:void(0);" class="ui-confirm-cancel popup-close">取 消</a><a href="javascript:void(0);" class="ui-confirm-submit">确 定</a></p>')
+                +'<div class="ui-confirm-info">'+info+'</div>'
+                +(confirmLine||'<p class="clearfix"><a href="javascript:void(0);" class="ui-confirm-cancel popup-close btn btn-default">取 消</a><a href="javascript:void(0);" class="ui-confirm-submit btn btn-primary">确 定</a></p>')
             +'</div>';
         var d = popup({
                 close : false,
@@ -96,11 +95,12 @@ define("util/popup",["wf"],function(_require,exports,module){
         d.on('click','.ui-confirm-submit',function(e){
             d.close( this );            
         });
+        return d;
     };
 
     popup.confirm = confirm;
     popup.alert = function(info, title, cbk){
-        confirm(info,title,cbk);
+        return confirm(info,title,cbk);
     };
 
     return popup;

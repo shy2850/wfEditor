@@ -66,20 +66,6 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
                     icon: "list-ol"
                 }
             },
-            formatBlock: {  // formatBlock 组里面的插件自带了 formatBlock 功能, 如需要改写，参考other/code/behavir
-                h1: {
-                    title: "大标题",
-                    icon: '<span>H1</span>' //如果出现了<> 则填充标签，否则填充fa图标
-                },
-                h2: {
-                    title: "中标题",
-                    icon: '<span>H2</span>'
-                },
-                p: {
-                    title: "段落",
-                    icon: '<span>p</span>'
-                }
-            },
             link:{},
             other: {
                 removeFormat:{
@@ -98,8 +84,10 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
 
     /*加载扩展插件开始*/
     require([
+        "base/block",
         "ext/font",
-        "ext/link"
+        "ext/link",
+        "ext/image"
     ],function(){
         [].forEach.call(arguments, function(icon){
             controls.addIcon(icon);
