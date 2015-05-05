@@ -87,7 +87,8 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
         "base/block",
         "ext/font",
         "ext/link",
-        "ext/image"
+        "ext/image",
+        "ext/face"
     ],function(){
         [].forEach.call(arguments, function(icon){
             controls.addIcon(icon);
