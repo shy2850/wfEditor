@@ -8,6 +8,15 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
     
     var controls = new Controls(),
         allControls = {
+            html:{
+                code: {
+                    icon: '<span>HTML</span>',
+                    title: "查看源代码",
+                    behavir: function(){    // behavior 是 具体操作
+                        code.toggle().text( editor.toggle().html() );
+                    }
+                }
+            },
             undo: {
                 undo: {
                     title: "撤销"
@@ -71,12 +80,6 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
                 removeFormat:{
                     title: "清除格式",
                     icon: "eraser"
-                },
-                code: {
-                    title: "查看源代码",
-                    behavir: function(){    // behavior 是 具体操作
-                        code.toggle().text( editor.toggle().html() );
-                    }
                 }
             }
         };
