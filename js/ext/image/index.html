@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wfEditor</title>
+    <link rel="stylesheet" href="../../../../libs/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../../libs/fontawesome/4.2.0/css/font-awesome.min.css">
+    <script src="../../../../libs/require.js/2.1.11/require.min.js"></script>
+    <style>
+        .tab-pane{
+            padding: .5em;
+        }
+        #upload{
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div>
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#upload">直接上传</a></li>
+        <li><a href="#url">远程图片</a></li>
+        <li><a href="#search">图片库检索</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="upload">
+            <button type="button" class="btn btn-info image-upload">上传图片</button>
+        </div>
+        <div class="tab-pane" id="url">
+            <input type="text" class="form-control image-input" placeholder="直接粘贴图片地址"/>
+        </div>
+        <div class="tab-pane" id="search">...</div>
+      </div>
+
+    </div>
+
+<script>
+require.config({
+    baseUrl: "../../",
+    paths: {
+        "wf": "../node_modules/wfquery/js/wfQuery"
+    }
+});
+require(["wf","util/frameUpload/index"], function($, FrameUpload){
+    var imgBtn = $(".image-upload");
+
+    $(".nav-tabs").on("click", "li>a",function(){
+        var t = $(this), 
+            p = t.parent();
+        p.addClass("active").siblings().removeClass("active");
+        $( t.attr("href") ).addClass("active").siblings().removeClass("active");
+    });
+
+
+    var uploader = new FrameUpload({
+        el: imgBtn[0],
+        action: "/f2e/imageUpload.html?uploadUrl=/f2e/upload/",
+        onchange: function(){
+            this.submit();
+            imgBtn.html("图片上传中");
+        },
+        afterUpload: function(data){
+            imgBtn.html("上传图片");
+            //document.execCommand('InsertImage', false, data.imgUrl);
+        }
+    });
+});
+// require(["base/index"]);
+</script>
+</body>
+</html>

@@ -11,17 +11,6 @@ define("base/controls",["wf"],function(_require,exports,module){
     var controls = {
     };
 
-    var Selection = function(){
-        var sele = document.getSelection();
-        this.focusNode = $(sele.focusNode);
-        this.focusOffset = sele.focusOffset;
-        this.rangeCount = sele.rangeCount;
-    };
-    selection = new Selection();
-
-    editor.on("blur", function(e){
-        selection = new Selection();
-    });
     editControls.on("click", ".btn", function(e){
         var t = $(this),
             r = t.data("role"),
@@ -29,7 +18,7 @@ define("base/controls",["wf"],function(_require,exports,module){
             g = p.data("group"),
             behavir;
         if( behavir = controls[g][r].behavir ){
-            behavir.call( controls[g][r], selection );
+            behavir.call( controls[g][r] );
         }else{
             document.execCommand(r, false, null);
         }

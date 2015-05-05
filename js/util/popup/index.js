@@ -1,4 +1,4 @@
-define("util/popup",["wf"],function(_require,exports,module){
+define("util/popup/index",["wf","css!util/popup/index.css"],function(_require,exports,module){
     var $ = require("wf");
 
     var popup = function(opt){
@@ -70,19 +70,18 @@ define("util/popup",["wf"],function(_require,exports,module){
         }
     });
 
-    var confirm = function(info, title, confirmLine, callback){
-        if( typeof confirmLine === 'function' ){
-            callback = confirmLine;
-            confirmLine = null;
-        }else{
-            callback = new Function();
-        }
+    var model = function(info, title, callback, conf){
+        callback = callback || new Function();
+        conf = conf || {};
         var html = '<div class="ui-confirm clearfix">'
                 +'<h1 class="ui-confirm-title">'+(title||'温馨提示')+'</h1>'
                 +'<div class="ui-confirm-info">'+info+'</div>'
-                +(confirmLine||'<p class="clearfix"><a href="javascript:void(0);" class="ui-confirm-cancel popup-close btn btn-default">取 消</a><a href="javascript:void(0);" class="ui-confirm-submit btn btn-primary">确 定</a></p>')
+                +'<p class="clearfix">'
+                +( conf.alert ? '' : '<a href="javascript:void(0);" class="ui-confirm-cancel popup-close btn btn-default">取 消</a>' )
+                +'<a href="javascript:void(0);" class="ui-confirm-submit btn btn-primary">确 定</a>'
+                +'</p>'
             +'</div>';
-        var d = popup({
+        var d = popup($.extend({
                 close : false,
                 width: 300,
                 html : html,
@@ -90,7 +89,7 @@ define("util/popup",["wf"],function(_require,exports,module){
                     var rt = callback.call( d, $(handle).hasClass('ui-confirm-submit') );
                     return handle ? rt : undefined;
                 }
-            });
+            },conf));
 
         d.on('click','.ui-confirm-submit',function(e){
             d.close( this );            
@@ -98,9 +97,16 @@ define("util/popup",["wf"],function(_require,exports,module){
         return d;
     };
 
-    popup.confirm = confirm;
+    popup.dialog = function(info, title, cbk){
+        return model(info,title,cbk,{
+            autoOpen:false,
+            removeOnClose:false,
+            width: 500
+        });
+    };
+    popup.confirm = model;
     popup.alert = function(info, title, cbk){
-        return confirm(info,title,cbk);
+        return model(info,title,cbk,{alert:true});
     };
 
     return popup;

@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="libs/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/fontawesome/4.2.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="libs/require.js/2.1.11/require.min.js"></script>
 </head>
 <body>
@@ -32,10 +30,6 @@ require.config({
     paths: {
         "wf": "../node_modules/wfquery/js/wfQuery"
     }
-});
-
-define("jQuery",function(){
-    return jQuery;
 });
 
 require(["base/index"]);

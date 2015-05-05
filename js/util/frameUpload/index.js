@@ -7,7 +7,7 @@
  */
 define("util/frameUpload/index",["util/requestAFrame"],function(_require, exports, module){
     var R = require('util/requestAFrame');
-    var iframeUri = "js/util/frameUpload/upload.html", index = 0;
+    var iframeUri = require.toUrl("util/frameUpload/upload") + ".html", index = 0;
     /**
      * CSS赋值
      * @param dom 操作的dom
