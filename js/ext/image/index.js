@@ -5,21 +5,34 @@ define("ext/image/index",["wf","util/popup/index"],function(_require,exports,mod
         Popup = require("util/popup/index");
 
     var uploader = null,
-        // html = '',
-        html = '<iframe src="'+src+'" frameborder="0" style="width:100%; height:300px;" id="iframe-image" name="iframe-image"></iframe>'
-        dialog = Popup.dialog(html, "图片上传", function(r){
-            if(r){  //点击确定按钮
-                var imgUrl;
-                
-                document.execCommand("InsertHtml",false,'<img src="http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/DB/61/wKhTg1U6JxYEAAAAAAAAAAAAAAA100.gif" alt="" />');
-            }
-        });
+        html = '<iframe src="'+src+'" frameborder="0" style="width:100%; height:300px;" id="iframe-image" name="iframe-image"></iframe>',
+        dialog;
+
+    $("#editor").on("dblclick","img", function(){
+        if( !dialog ){
+            dialog = Popup.dialog(html, "插入图片", function(r){
+                if(r){  //点击确定按钮
+                    var img = $( ".active .img-view", $("#iframe-image")[0].contentDocument );
+                    img.length && document.execCommand("InsertHtml", false, img.parent().html() );
+                }
+            });
+        }
+        dialog.open();
+    });
 
     return {
         group: "other",
         title: "插入图片",
         role: "image",
         behavir: function(){
+            if( !dialog ){
+                dialog = Popup.dialog(html, "插入图片", function(r){
+                    if(r){  //点击确定按钮
+                        var img = $( ".active .img-view", $("#iframe-image")[0].contentDocument );
+                        img.length && document.execCommand("InsertHtml", false, img.parent().html() );
+                    }
+                });
+            }
             dialog.open();
         }
     };

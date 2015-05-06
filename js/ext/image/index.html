@@ -3,24 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <title>wfEditor</title>
-    <link rel="stylesheet" href="../../../../libs/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../../libs/fontawesome/4.2.0/css/font-awesome.min.css">
-    <script src="../../../../libs/require.js/2.1.11/require.min.js"></script>
+    <link rel="stylesheet" href="../../../libs/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../libs/fontawesome/4.2.0/css/font-awesome.min.css">
+    <script src="../../../libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+    <script src="../../../libs/require.js/2.1.11/require.min.js"></script>
     <style>
+        html, body{
+            padding: 0;
+            overflow: hidden;
+        }
         .tab-pane{
             padding: .5em;
         }
         #upload{
             position: relative;
         }
-        .image-input{
-            width: 300px;
-            display: inline-block;
-            float: right;
-        }
         .img-thumbnail{
             max-width: 60%;
             max-height: 150px;
+        }
+        .bg{
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: none;
+            border: 0;
+        }
+        .list{
+            padding: 0;
+            overflow: hidden;
+        }
+        .list li{
+            float: left;
+            width: 24%;
+            padding: 4px 0;
+            list-style: none;
+        }
+        .list li img{
+            width: 90%;
+            height: 80px;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .list li img.img-view{
+            border: 2px solid #428bca;
+        }
+        #search-list{
+            height: 200px;
+            overflow-y: scroll;
         }
     </style>
 </head>
@@ -28,25 +58,69 @@
     <div>
       <!-- Nav tabs -->
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#insert">直接插入</a></li>
+        <li class="active"><a href="#upload">本地上传</a></li>
+        <li><a href="#insert">远程图片</a></li>
         <li><a href="#search">图片库</a></li>
-        <li><a href="#baidu">百度检索</a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="insert">
+        <div class="tab-pane active" id="upload">
             <div class="form-group">
-                <button type="button" class="btn btn-info image-upload">点击上传</button> 或
+                <button type="button" class="btn btn-info image-upload">点击上传</button>
+            </div>
+    
+            <div class="form-group text-center">
+                <img src="http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/EE/23/wKhTglVJg-UEAAAAAAAAAAAAAAA087.jpg" alt="" class="img-thumbnail img-view" url="http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/EE/23/wKhTglVJg-UEAAAAAAAAAAAAAAA174.jpg,http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/EE/81/wKhTg1VJhAYEAAAAAAAAAAAAAAA385.jpg,http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/EE/23/wKhTglVJg-UEAAAAAAAAAAAAAAA087.jpg">
+            </div>
+            
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">描述</div>
+                    <input type="txt" class="form-control img-desc" placeholder="请输入图片描述">
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="insert">
+            <div class="form-group">
                 <input type="text" class="form-control image-input" placeholder="直接粘贴图片地址"/>
             </div>
     
             <div class="form-group text-center">
-                <img src="/placeholder.jpg" alt="占位图" class="img-thumbnail">                
+                <img src="http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/EE/23/wKhTglVJg-UEAAAAAAAAAAAAAAA087.jpg" alt="" class="img-thumbnail img-view" url="http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M07/EE/23/wKhTglVJg-UEAAAAAAAAAAAAAAA174.jpg,http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M09/EE/81/wKhTg1VJhAYEAAAAAAAAAAAAAAA385.jpg,http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M08/EE/23/wKhTglVJg-UEAAAAAAAAAAAAAAA087.jpg">
+            </div>
+            
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-addon">描述</div>
+                    <input type="txt" class="form-control img-desc" placeholder="请输入图片描述">
+                </div>
             </div>
         </div>
-        <div class="tab-pane" id="search">...</div>
-        <div class="tab-pane" id="baidu">...</div>
+
+        <div class="tab-pane" id="search">
+            <form class="form-inline">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search-kw" placeholder="输入关键词">
+                        <div class="input-group-addon"><button type="submit" class="bg">检索</button></div>
+                    </div>
+                </div>
+            </form>
+            <div id="search-list">
+                <ul class="list">
+                    
+                </ul>
+                <div class="form-group text-center">
+                    <a href="javascript:void(0);" class="more">加载更多</a>
+                </div>
+                <script type="template" data-method="post" data-target="#search-list .list">
+                {{#each picList}}<li title="{{t}}"><img src="{{s}}" alt="{{t}}" url="{{s}},{{m}},{{l}}"></li>{{/each}}
+                </script>
+            </div>
+
+        </div>
       </div>
 
     </div>
@@ -58,29 +132,125 @@ require.config({
         "wf": "../node_modules/wfquery/js/wfQuery"
     }
 });
-require(["wf","util/frameUpload/index"], function($, FrameUpload){
-    var imgBtn = $(".image-upload");
 
-    $(".nav-tabs").on("click", "li>a",function(){
+require(["wf","util/frameUpload/index","util/template-init"], function($, FrameUpload, T){
+
+    var imgBtn = $(".image-upload"),
+        imgInput = $(".image-input");
+
+    $(".nav-tabs").on("click", "li>a",function(e){
+        e.preventDefault();
         var t = $(this), 
             p = t.parent();
         p.addClass("active").siblings().removeClass("active");
         $( t.attr("href") ).addClass("active").siblings().removeClass("active");
     });
 
+    /*直接粘贴*/
+    imgInput.on("blur", function(){
+        if(this.value){
+            $(".active .img-view").attr({
+                src: this.value,
+                url: ""
+            });
+        }
+    });
+
+    /* 上传 */
+    var ftpPath = "http://tpic.home.news.cn/xhCloudNewsPic/",
+        uploadUrl = require.toUrl("../../xhadmin") + "/ueditor/uploadAndCutFor3Pics.do";
 
     var uploader = new FrameUpload({
         el: imgBtn[0],
-        action: "/f2e/imageUpload.html?uploadUrl=/f2e/upload/",
+        ajax: true,
+        action: uploadUrl,
         onchange: function(){
             this.submit();
-            imgBtn.html("图片上传中");
+            imgBtn.html("上传中..");
         },
         afterUpload: function(data){
             imgBtn.html("上传图片");
-            //document.execCommand('InsertImage', false, data.imgUrl);
+            if( data.state === "SUCCESS" ){
+                $(".active .img-view").attr({
+                    src: ftpPath + data.url.original,
+                    url: [ ftpPath + data.url.small, ftpPath + data.url.middle, ftpPath + data.url.original ].join( "," )
+                });
+
+            }else{
+                alert( "上传失败" );
+            }
         }
     });
+
+    /*添加描述*/
+    $(".img-desc").on("change", function(){
+        $(".active .img-view").attr({
+            alt: this.value
+        });
+    });
+
+    /*图片库检索*/
+    var searchUrl = require.toUrl("../../xhadmin") + "/content/get_picture.do",
+        searchForm = $("#search form"),
+        more = $(".more"),
+        pageNo = 1;
+
+    T.init({    // 初始化
+        tmpl: $("#search-list script"),
+        sourceUrl: searchUrl,
+        sourceData: function(){
+            return {
+                action: "post",
+                keyword: $("#search-kw").val(),
+                isD: "y"
+            }
+        }
+    });
+    searchForm.on("submit", function(e){
+        e.preventDefault();
+        T.refresh({     //检索
+            tmpl: $("#search-list script"),
+            sourceUrl: searchUrl,
+            sourceData: function(){
+                return {
+                    action: "post",
+                    keyword: $("#search-kw").val(),
+                    isD: "n"
+                }
+            },
+            callback: function(o){
+                pageNo = 1;
+                more.show();
+            }
+        });
+    });
+
+    more.on("click", function(){
+        T.refresh({ //翻页
+            tmpl: $("#search-list script"),
+            sourceUrl: searchUrl,
+            sourceData: function(){
+                return {
+                    action: "post",
+                    keyword: $("#search-kw").val(),
+                    isD: "n",
+                    pageNo: ++pageNo
+                }
+            },
+            append: true,
+            callback: function(o){
+                if( !o.source.picList.length ){
+                    more.hide();
+                }
+            }
+        });
+    });
+
+    $("#search-list").on("click", "img", function(){
+        $(this).toggleClass( "img-view" );
+        $("#search-list img").not(this).removeClass( "img-view" );
+    });
+
 });
 // require(["base/index"]);
 </script>
