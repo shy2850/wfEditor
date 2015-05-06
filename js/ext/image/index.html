@@ -146,6 +146,21 @@ require(["wf","util/frameUpload/index","util/template-init"], function($, FrameU
         $( t.attr("href") ).addClass("active").siblings().removeClass("active");
     });
 
+    var btn = $(".nav-tabs [href='#insert']"),
+        imgView = $("#insert .img-view"),
+        alt = $("#insert .img-desc"),
+        src = $("#insert .image-input");
+    window.editImage = function(img){
+        btn.trigger("click");
+        imgView.attr({
+            src: img.src,
+            url: img.getAttribute("url") || "",
+            alt: img.alt
+        });
+        alt.val( img.alt );
+        src.val( img.src );
+    };
+
     /*直接粘贴*/
     imgInput.on("blur", function(){
         if(this.value){
