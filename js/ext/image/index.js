@@ -10,9 +10,8 @@ define("ext/image/index",["wf","util/popup/index"],function(_require,exports,mod
         dialog = Popup.dialog(html, "图片上传", function(r){
             if(r){  //点击确定按钮
                 var imgUrl;
-                if( ( imgUrl = imgInput.val() ) ){
-                    //TODO
-                }
+                
+                document.execCommand("InsertHtml",false,'<img src="http://tpic.home.news.cn/xhCloudNewsPic/xhpic001/M03/DB/61/wKhTg1U6JxYEAAAAAAAAAAAAAAA100.gif" alt="" />');
             }
         });
 

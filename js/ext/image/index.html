@@ -13,26 +13,40 @@
         #upload{
             position: relative;
         }
+        .image-input{
+            width: 300px;
+            display: inline-block;
+            float: right;
+        }
+        .img-thumbnail{
+            max-width: 60%;
+            max-height: 150px;
+        }
     </style>
 </head>
 <body>
     <div>
       <!-- Nav tabs -->
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#upload">直接上传</a></li>
-        <li><a href="#url">远程图片</a></li>
-        <li><a href="#search">图片库检索</a></li>
+        <li class="active"><a href="#insert">直接插入</a></li>
+        <li><a href="#search">图片库</a></li>
+        <li><a href="#baidu">百度检索</a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="upload">
-            <button type="button" class="btn btn-info image-upload">上传图片</button>
-        </div>
-        <div class="tab-pane" id="url">
-            <input type="text" class="form-control image-input" placeholder="直接粘贴图片地址"/>
+        <div class="tab-pane active" id="insert">
+            <div class="form-group">
+                <button type="button" class="btn btn-info image-upload">点击上传</button> 或
+                <input type="text" class="form-control image-input" placeholder="直接粘贴图片地址"/>
+            </div>
+    
+            <div class="form-group text-center">
+                <img src="/placeholder.jpg" alt="占位图" class="img-thumbnail">                
+            </div>
         </div>
         <div class="tab-pane" id="search">...</div>
+        <div class="tab-pane" id="baidu">...</div>
       </div>
 
     </div>
