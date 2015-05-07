@@ -17,6 +17,101 @@ define("util/template-init",["wf"],function(_require, exports, module) {
     };
 
     /**
+     * 分页插件
+    **/
+    $.fn.toPager = function(opt){
+        return $(this).each(function(){
+            var _this = $(this);
+            var o = $.extend({
+                el : _this,
+                totalPage : 1,
+                currentPage: 1,
+                preposePagesCount : 1,
+                postposePagesCount : 1,
+                firstPagesCount : 2,
+                lastPagesCount : 2,
+                'switch': null
+            },opt);
+
+            var paginationInner = '',
+                totalPage = o.totalPage,
+                currPage = o.currentPage,
+                preposePagesCount = o.preposePagesCount,
+                postposePagesCount = o.postposePagesCount,
+                firstPagesCount = o.firstPagesCount,
+                lastPagesCount = o.lastPagesCount,
+                offset;
+            /**
+             * @brief 渲染可点击的页码
+             * @param index {Number} 页码索引
+             *
+             */
+            function _renderActivePage(index) {
+                return '<a class="pagination-spec" data-page="' + index + '">' + index + '</a>';
+            }
+
+            // currPage前的页码展示
+            paginationInner += currPage === 1 
+                ? '<span class="pagination-start"><span>上一页</span></span>' 
+                : '<a class="pagination-prev"><span>上一页</span></a>';
+            if (currPage <= firstPagesCount + preposePagesCount + 1) {
+                for(var i=1; i<currPage; i++) {
+                    paginationInner += _renderActivePage(i);
+                }
+            } else {
+                for(var i=1; i<=firstPagesCount; i++) {
+                    paginationInner += _renderActivePage(i);
+                }
+                paginationInner += '<span class="pagination-break">...</span>';
+                for(var i=currPage-preposePagesCount; i<=currPage-1; i++) {
+                    paginationInner += _renderActivePage(i);
+                }
+            }               
+
+            // currPage的页码展示
+            paginationInner += '<span class="pagination-curr">' + currPage + '</span>';
+
+            // currPage后的页码展示
+            if (currPage >= totalPage - lastPagesCount - postposePagesCount) {
+                offset = currPage + 1;
+                for(var i=currPage+1; i<=totalPage; i++) {
+                    paginationInner += _renderActivePage(i);
+                }
+
+            } else {
+                for(var i=currPage+1; i<=currPage+postposePagesCount; i++) {
+                    paginationInner += _renderActivePage(i);
+                }
+                paginationInner += '<span class="pagination-break">...</span>';
+                for(var i=totalPage-lastPagesCount+1; i<=totalPage; i++) {
+                    paginationInner += _renderActivePage(i);
+                }
+            }
+            totalPage =  totalPage === 0 ? 1 : totalPage;   //totalPage==0时，下一页不可点击
+            paginationInner += currPage === totalPage 
+                ? '<span class="pagination-end"><span>下一页</span></span>' 
+                : '<a class="pagination-next"><span>下一页</span></a>';
+            $(o.el).html(paginationInner);
+
+            function _switchToPage(page) {
+                o.currentPage = Number(page);
+                _this.toPager(o,true);  //不带初始化的分页加载
+                _this.trigger('switch', {
+                    toPage: o.currentPage 
+                });
+            }
+            _this.off('switch').on('switch',o["switch"]);
+            $(o.el).off('click').on('click','.pagination-spec',function(e){
+                _switchToPage( $(this).html() )
+            }).on('click','.pagination-prev',function(e){
+                _switchToPage( Number( $(this).siblings(".pagination-curr").html() ) - 1 )
+            }).on('click','.pagination-next',function(e){
+                _switchToPage( Number( $(this).siblings(".pagination-curr").html() ) + 1 )
+            });
+        });
+    };
+
+    /**
      * 创建自定义操作标签。
     **/
     Handlebars.registerHelper('division', function(a, b) {

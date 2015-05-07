@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>插入视频</title>
+    <link rel="stylesheet" href="../../../libs/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../libs/fontawesome/4.2.0/css/font-awesome.min.css">
+    <script src="../../../libs/handlebars.js/2.0.0-alpha.4/handlebars.min.js"></script>
+    <script src="../../../libs/require.js/2.1.11/require.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .panel {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+        #searchList {
+            width: 570px;
+            overflow: auto;
+            zoom: 1;
+            height: 270px;
+        }
+        .groupList {
+            width: 545px;
+            padding: 10px 0 10px 5px;
+            border-bottom: 1px solid #c8dcf0;
+            position: relative;
+            min-height: 80px;
+        }
+        .groupList .image-con {
+            width: 80px;
+            float: left;
+            margin-top: 8px;
+        }
+        .groupList .txt-con {
+            width: 400px;
+            float: left;
+        }
+        .groupList .opa-con {
+            width: 45px;
+            float: left;
+            position: absolute;
+            right: 0;
+            bottom: 5px;
+        }
+        .clear {
+            clear: both;
+        }
+        .groupList .txt-con p {
+            padding-left: 20px;
+            color: #888;
+            line-height: 18px;
+        }
+        .groupList .txt-con .des-channel {
+            width: 80px;
+        }
+        .groupList .txt-con .des-name, .groupList .txt-con .des-channel {
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            zoom: 1;
+            text-overflow: ellipsis;
+        }
+        .groupList .txt-con .des-name {
+            width: 300px;
+        }
+        .groupList .txt-con p label {
+            color: #5FB6F4;
+        }
+        .groupList .opa-con .btn-choose {
+            background-color: #24ce2c;
+            border: 1px;
+            color: #fff;
+            height: 20px;
+            cursor: pointer;
+        }
+        .panel table td {
+            vertical-align: middle;
+        }
+        #videoSearchTxt {
+            background: #FFF;
+            width: 200px;
+            height: 21px;
+            line-height: 21px;
+            border: 1px solid #d7d7d7;
+        }
+        #videoSearchBtn, #videoSearchReset {
+            /* width: 80px;*/
+            height: 25px;
+            line-height: 25px;
+            background: #eee;
+            border: 1px solid #d7d7d7;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+        .tabhead span.focus {
+            background: #fff;
+            color: #00b6aa;
+            font-size: 12px;
+        }
+        .tabhead span {
+            display: inline-block;
+            padding: 0 5px;
+            height: 30px;
+            border: 1px solid #00b6aa;
+            background: #00b6aa;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            color: #fff;
+        }
+        .loading {
+            border: 1px solid #c8dcf0;
+            text-align: center;
+            margin-top: 5px;
+            background-color: #e3eef8;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+        p {
+            font-size: 12px;
+        }
+        .groupList .opa-con .btn-cancel {
+            background-color: #e10501;
+            border: 1px;
+            color: #fff;
+            height: 20px;
+            cursor: pointer;
+        }
+        /**分页样式开始*/
+        .page {
+            text-align: center;
+        }
+        .fm-pager {
+            line-height: 24px;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+        .fm-pager a {
+            color: #333333;
+        }
+        .fm-pager .pagination-spec, .fm-pager .pagination-curr {
+            display: inline-block;
+            padding: 0 .8em;
+            margin: 0 4px;
+        }
+        .fm-pager .pagination-next, .fm-pager .pagination-prev, .fm-pager .pagination-start, .fm-pager .pagination-end {
+            display: inline-block;
+            padding: 0 .8em;
+            text-align: center;
+            border: 1px solid #cbcbcb;
+        }
+        .fm-pager .pagination-spec, .fm-pager .pagination-next, .fm-pager .pagination-prev {
+            cursor: pointer;
+        }
+        .fm-pager .pagination-curr, .fm-pager a:hover {
+            background: #2cac93;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div id="tabHeads" class="tabhead">
+        <span tabsrc="videoSearch" class="focus">
+            搜索视频
+        </span>
+    </div>
+    <div id="videoSearch" class="panel">
+        <table style="margin-top: 5px;">
+            <tbody>
+                <tr>
+                    <td>
+                        <input id="videoSearchTxt" type="text" placeholder="请输入关键字">
+                    </td>
+                    <td>
+                        <input id="videoSearchBtn" type="button" value="检索视频">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="searchList" class="my-pager">
+        </div>
+        <div class="pager" data-page="my-list" id="page">
+            <div id="my-pager" class="fm-pager">
+            </div>
+        </div>
+            <script type="text/html" id="int-video" data-target="#searchList" data-method="get" data-pagination="#my-pager">
+              {{#if content.length}}
+                  {{#each content}}
+                      <div class="groupList" data-id="{{docId}}">
+                          <div class="image-con">
+                              <img style="visibility: visible;" src="{{titleImg}}" height="59" width="80">
+                          </div>
+                          <div class="txt-con">
+                              <p>
+                                  <span class="des-channel"><label>id：</label>{{docId}}</span><span class="des-name"><label>名称：</label><a title="{{docName}}" target="_blank" href="{{pubUrl}}">{{docName}}</a></span>
+                              </p>
+                              <p>
+                                  <span><label>描述：</label>{{description}}</span>
+                              </p>
+                          </div>
+                          <div class="opa-con">
+                              <input type="button" class="btn-choose" value="选用">
+                          </div>
+                          <div class="clear">
+                          </div>
+                      </div>
+                  {{/each}}
+                  <span class="currentPage">{{ pageNo }}</span>
+                  <span class="totalPage">{{ division totalcount 10  }}</span>
+          {{else}}
+        {{/if}}
+        </script>
+    </div>
+    <script type="text/javascript">
+        require.config({
+            baseUrl: "../../",
+            paths: {
+                "wf": "../node_modules/wfquery/js/wfQuery"
+            }
+        });
+
+        var searchUrl = '/xhCNS/search.htm?noDomain=true';
+        require(["wf", "util/template-init"], function($, T){
+            $('#videoSearchBtn').on("click", function() {
+                T.init({
+                    tmpl: '#int-video',
+                    sourceUrl: searchUrl,
+                    page: {
+                        size: 'pageSize',
+                        to: 'pageNo'
+                    },
+                    sourceData: function() {
+                        return {
+                            keyword: encodeURIComponent($("#videoSearchTxt").val()),
+                            retype: "json",
+                            usefor: "admin",
+                            typeId: 2
+                        }
+                    },
+                    callback: function() {
+                        $('.opa-con input[type=button]').click(function() {
+                            var className = $(this).attr('class');
+                            if (className == 'btn-choose') {
+                                $(this).removeClass('btn-choose').addClass('btn-cancel').val('取消').parents('.groupList').addClass('vidActive');
+                            } else {
+                                $(this).removeClass('btn-cancel').addClass('btn-choose').val('选择').parents('.groupList').removeClass('vidActive');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
