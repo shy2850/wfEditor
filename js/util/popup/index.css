@@ -1,0 +1,48 @@
+/*popup*/
+.popup-overflow{
+    overflow: hidden;
+}
+.popup{
+    position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;
+    overflow-y:scroll;
+    background:rgba(0,0,0,.1);
+}
+.popup > .popup-inner{
+    padding:30px 0; 
+    margin: 0 auto;
+    position: relative;
+}
+.popup-inner > .popup-close{
+    position:absolute;
+    top:30px;right:0;
+    z-index:110;
+    width:40px;height:40px;
+    text-align:center;
+    line-height:40px;
+    font-size:20px;
+    text-decoration: none;
+}
+.popup-inner > .popup-close:hover{
+    color: #c00;
+}
+
+/*ui-confirm*/
+.ui-confirm{
+    padding: 0 1em 1em;
+    background:#fff;
+    box-shadow:0 0 0 6px rgba(0,0,0,.3);
+}
+.ui-confirm-title{
+    margin-top: 0;
+    font: normal 18px/48px "Microsoft Yahei";
+    color:#666;
+    border-bottom:1px solid #ddd;
+}
+.ui-confirm-title span{margin-right:10px;font-size:32px;}
+.ui-confirm-info{ padding-bottom: 10px; }
+.ui-confirm-submit, .ui-confirm-cancel{ 
+    float:right;
+    text-decoration: none !important;
+}
+.ui-confirm-cancel{margin-left: 1em;}
+/*popup end*/

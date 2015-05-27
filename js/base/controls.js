@@ -7,8 +7,6 @@ define("base/controls",["wf"],function(_require,exports,module){
 
     var i = function(t){
         return '<i class="fa fa-'+t+'"></i>';
-    }, formatBehavir = function(){
-        document.execCommand('formatBlock', false, '<' + this.role + '>');
     };
     var controls = {
     };
@@ -20,17 +18,13 @@ define("base/controls",["wf"],function(_require,exports,module){
             g = p.data("group"),
             behavir;
         if( behavir = controls[g][r].behavir ){
-
-
-
-            behavir.call( controls[g][r], t );
+            behavir.call( controls[g][r] );
         }else{
             document.execCommand(r, false, null);
         }
     });
 
     var Controls = function(){
-
     };
 
     $.extend( Controls.prototype, {
@@ -41,9 +35,6 @@ define("base/controls",["wf"],function(_require,exports,module){
                 for(var r in controls[g]){
                     var icon = controls[g][r].icon || (controls[g][r].icon = r); // icon默认跟 role相同
                     controls[g][r].role = controls[g][r].role || r;     // role 可以接收来自于上级key
-                    if( g === "formatBlock" ) { // 块级操作自带效果
-                        controls[g][r].behavir = controls[g][r].behavir || formatBehavir; 
-                    }
                     gHtml += '<a class="btn" data-role="'+r+'" href="javascript:;" title="'+(controls[g][r].title||"")+'">'+ ( icon.match(/[<>]/) ? icon : i(icon) ) +'</a>'
                 }
                 html += gHtml + '</div>';
