@@ -13,7 +13,7 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
                     icon: '<span>HTML</span>',
                     title: "查看源代码",
                     behavir: function(){    // behavior 是 具体操作
-                        code.toggle().text( editor.toggle().html() );
+                        code.toggle().val( editor.toggle().html() );
                     }
                 }
             },
@@ -90,7 +90,8 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
         "base/block",
         "ext/font",
         "ext/link",
-        "ext/image/index"
+        "ext/image/index",
+        "ext/code"
     ],function(){
         [].forEach.call(arguments, function(icon){
             controls.addIcon(icon);
