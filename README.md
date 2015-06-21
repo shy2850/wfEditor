@@ -8,15 +8,16 @@ Demo: <http://webfuture.cn/wfEditor/index.html>
 `npm install wfeditor` 
 
 - npm install
-
+```
     "dependencies": {
         "codemirror": "^5.3.0",
         "js-beautify": "^1.5.7",
         "marked": "^0.3.3",
         "wfquery": "^0.2.0"
     }
+```
 - libs: 通过 f2e-server 代理 百度CDN 获取
-
+```
     exports["wfeditor.cn"] = {
         root: "E:\\github\\wfEditor\\",
         agent:{
@@ -28,3 +29,4 @@ Demo: <http://webfuture.cn/wfEditor/index.html>
             }
         }
     };
+```
