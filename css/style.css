@@ -8,12 +8,18 @@
     border: 1px solid silver;
     padding: 1px;
 }
-#editor, #code{
+#editparent{
+    position: relative;
+}
+#editor, #code, #markdown{
     resize:vertical; 
     overflow:auto; 
     border:1px solid silver; 
     box-shadow: inset 0 0 10px silver;
     padding: 1em;
+    display: block;
+    width: 100%;
+    position: absolute;
 }
 #editor img{
     max-width: 90%;
@@ -28,6 +34,9 @@
 }
 .opacity{
     opacity: 0;
+}
+.hidden{
+    display: none !important;
 }
 
 .fa-font:before{
