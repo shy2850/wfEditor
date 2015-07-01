@@ -24,6 +24,9 @@
 #editor img{
     max-width: 90%;
 }
+#editor p{
+    text-indent: 2em;
+}
 
 .bg{
     position: absolute;
