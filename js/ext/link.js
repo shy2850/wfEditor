@@ -1,8 +1,7 @@
 define("ext/link",["wf","util/popup/index"],function(_require,exports,module){
 
     var $ = require("wf"),
-        Popup = require("util/popup/index"),
-        R = require("util/requestAFrame");
+        Popup = require("util/popup/index");
 
     var uploader = null,
         html = ''
@@ -15,7 +14,7 @@ define("ext/link",["wf","util/popup/index"],function(_require,exports,module){
             +'<div class="form-group">'
             +'    <div class="input-group">'
             +'        <div class="input-group-addon">链接</div>'
-            +'        <input type="txt" class="form-control link-href" value="{{link}}">'
+            +'        <input type="url" class="form-control link-href" value="{{link}}" placeholder="http://">'
             +'    </div>'
             +'</div>'
             +'<div class="checkbox">'
@@ -24,13 +23,12 @@ define("ext/link",["wf","util/popup/index"],function(_require,exports,module){
             +'    </label>'
             +'</div>';
 
-    $("#editor").on("dblclick","a", function(){
+    $("#editor").on("click","a", function(){
 
         var o = {
             text: this.innerHTML,
             link: this.href,
-            checked: this.target ? "checked" : "",
-            readonly: "readonly"
+            checked: this.target ? "checked" : ""
         }, a = this;
 
         var s = window.getSelection(),
@@ -38,7 +36,7 @@ define("ext/link",["wf","util/popup/index"],function(_require,exports,module){
         if(s.rangeCount > 0) s.removeAllRanges();
         range.selectNode(a);
         s.addRange(range);
-        Popup.confirm(html.replace(/\{\{(\w+)\}\}/g, function(wd,k){return o[k]}), "编辑链接", function(r){
+        Popup.confirm(html.replace(/\{\{(\w+)\}\}/g, function(wd,k){return o[k]||""}), "编辑链接", function(r){
             if(r){
                 var href = $(this).find(".link-href").val(),
                     target = $(this).find(".link-target")[0].checked ? '_blank' : "";
@@ -54,16 +52,30 @@ define("ext/link",["wf","util/popup/index"],function(_require,exports,module){
 
     });
 
-
     return [{
         group: "link",
         title: "链接",
         role: "link",
         behavir: function(el){
-            var link = window.prompt("link:","");
-            if(link){
-                document.execCommand('CreateLink', false, link);
-                getSelection().anchorNode.parentNode.target = "_blank";
+            var s = getSelection(),
+                range = s.getRangeAt(0),
+                o = {};
+            if( s.extentNode === s.baseNode ){
+                o.text = s.toString();
+                Popup.confirm(html.replace(/\{\{(\w+)\}\}/g, function(wd,k){return o[k]||""}), "新建链接", function(r){
+                    if(r){
+                        var text = $(this).find(".link-text").val(),
+                            href = $(this).find(".link-href").val(),
+                            target = $(this).find(".link-target")[0].checked ? '_blank' : "";
+                        if( text && href ){
+                            getSelection().addRange( range );
+                            document.execCommand("InsertHtml", false, '<a href="'+href+'" target="'+target+'">'+text+'</a>' );
+                        }else{
+                            alert( "请输入文字和链接" );
+                            return false;
+                        }
+                    }
+                }, {width: 400});
             }
         }
     },{
