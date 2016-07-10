@@ -1,5 +1,6 @@
 exports["localhost"] = {
-    "root": "d:\\doc\\github\\wfEditor\\",
+    "root": __dirname,
+    "welcome": 'index.html',
     "uploadFile": true,
     "buildFilter": function (pathname) {
     	if (!pathname.match(/node_modules/)) {
