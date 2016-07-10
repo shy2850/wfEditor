@@ -91,12 +91,14 @@ define("base/index",["wf","base/controls"],function(_require,exports,module){
         "ext/font",
         "ext/link",
         "ext/code",
-        "ext/image/index"
+        "ext/image/index",
+        "ext/audio/index"
     ],function(){
         [].forEach.call(arguments, function(icon){
             controls.addIcon(icon);
         });
         controls.init();
+        editor.trigger('init');
         $(window).trigger("resize");
     });
     /*加载扩展插件结束*/

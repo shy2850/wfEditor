@@ -18,7 +18,7 @@
         #upload{
             position: relative;
         }
-        .img-thumbnail{
+        .audio-thumbnail{
             max-width: 60%;
             max-height: 150px;
         }
@@ -39,13 +39,13 @@
             padding: 4px 0;
             list-style: none;
         }
-        .list li img{
+        .list li audio{
             width: 90%;
             height: 80px;
             border: 2px solid transparent;
             cursor: pointer;
         }
-        .list li img.img-view{
+        .list li audio.audio-view{
             border: 2px solid #428bca;
         }
         #search-list{
@@ -59,41 +59,41 @@
       <!-- Nav tabs -->
       <ul class="nav nav-tabs">
         <li class="active"><a href="#upload">本地上传</a></li>
-        <li><a href="#insert">远程图片</a></li>
+        <li><a href="#insert">远程音乐</a></li>
       </ul>
 
       <!-- Tab panes -->
       <div class="tab-content">
         <div class="tab-pane active" id="upload">
             <div class="form-group">
-                <button type="button" class="btn btn-info image-upload">点击上传</button>
+                <button type="button" class="btn btn-info music-upload">点击上传</button>
             </div>
     
             <div class="form-group text-center">
-                <img src="../../../f2e/placeholder.jpg" alt="" class="img-thumbnail img-view" url="../../../f2e/placeholder.jpg">
+                <audio class="audio-view" title="" src="http://211.161.84.154/m10.music.126.net/20160710175229/9e025122291511bb835cb257a1f1a218/ymusic/4d0e/21c7/4ebd/5fa2590eef0a3374c65e6b8023aa39ad.mp3?wshc_tag=1&wsts_tag=57821501&wsid_tag=712c7001&wsiphost=ipdbm" controls></audio>
             </div>
             
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">描述</div>
-                    <input type="txt" class="form-control img-desc" placeholder="请输入图片描述">
+                    <input type="txt" class="form-control audio-desc" placeholder="请输入音乐描述">
                 </div>
             </div>
         </div>
 
         <div class="tab-pane" id="insert">
             <div class="form-group">
-                <input type="text" class="form-control image-input" placeholder="直接粘贴图片地址"/>
+                <input type="text" class="form-control music-input" placeholder="直接粘贴音乐地址"/>
             </div>
     
             <div class="form-group text-center">
-                <img src="../../../f2e/placeholder.jpg" alt="" class="img-thumbnail img-view" url="../../../f2e/placeholder.jpg">
+                <audio class="audio-view" title="" src="../../../f2e/zuiqingfeng.mp3" controls></audio>
             </div>
             
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-addon">描述</div>
-                    <input type="txt" class="form-control img-desc" placeholder="请输入图片描述">
+                    <input type="txt" class="form-control audio-desc" placeholder="请输入音乐描述">
                 </div>
             </div>
         </div>
@@ -112,8 +112,8 @@ require.config({
 
 require(["wf","util/frameUpload/index","util/template-init"], function($, FrameUpload, T){
 
-    var imgBtn = $(".image-upload"),
-        imgInput = $(".image-input");
+    var audioBtn = $(".music-upload"),
+        audioInput = $(".music-input");
 
     $(".nav-tabs").on("click", "li>a",function(e){
         e.preventDefault();
@@ -124,26 +124,24 @@ require(["wf","util/frameUpload/index","util/template-init"], function($, FrameU
     });
 
     var btn = $(".nav-tabs [href='#insert']"),
-        imgView = $("#insert .img-view"),
-        alt = $("#insert .img-desc"),
-        src = $("#insert .image-input");
-    window.editImage = function(img){
+        audioView = $("#insert .audio-view"),
+        title = $("#insert .audio-desc"),
+        src = $("#insert .music-input");
+    window.editMusic = function(audio){
         btn.trigger("click");
-        imgView.attr({
-            src: img.src,
-            url: img.getAttribute("url") || "",
-            alt: img.alt
+        audioView.attr({
+            src: audio.src,
+            title: audio.title
         });
-        alt.val( img.alt );
-        src.val( img.src );
+        title.val( audio.title );
+        src.val( audio.src );
     };
 
     /*直接粘贴*/
-    imgInput.on("blur", function(){
+    audioInput.on("blur", function(){
         if(this.value){
-            $(".active .img-view").attr({
-                src: this.value,
-                url: ""
+            $(".active .audio-view").attr({
+                src: this.value
             });
         }
     });
@@ -152,19 +150,18 @@ require(["wf","util/frameUpload/index","util/template-init"], function($, FrameU
     var uploadUrl = '../../../f2e/imageUpload.json';
 
     var uploader = new FrameUpload({
-        el: imgBtn[0],
+        el: audioBtn[0],
         ajax: true,
         action: uploadUrl,
         onchange: function(){
             this.submit();
-            imgBtn.html("上传中..");
+            audioBtn.html("上传中..");
         },
         afterUpload: function(data){
-            imgBtn.html("上传图片");
+            audioBtn.html("上传音乐");
             if( data.state === "SUCCESS" ){
-                $(".active .img-view").attr({
-                    src: data.url.original,
-                    url: [ data.url.small, data.url.middle, data.url.original ].join( "," )
+                $(".active .audio-view").attr({
+                    src: data.url.original
                 });
 
             }else{
@@ -174,9 +171,9 @@ require(["wf","util/frameUpload/index","util/template-init"], function($, FrameU
     });
 
     /*添加描述*/
-    $(".img-desc").on("change", function(){
-        $(".active .img-view").attr({
-            alt: this.value
+    $(".audio-desc").on("change", function(){
+        $(".active .audio-view").attr({
+            title: this.value
         });
     });
 

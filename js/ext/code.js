@@ -19,7 +19,7 @@ define("ext/code",["wf"],function(_require,exports,module){
     });
 
     $( "#editparent" ).on("keyup", ".CodeMirror", function(e){
-        if( e.keyCode === 9 && !window.emmet ) require(["emmet"]);
+        if( e.keyCode === 9 && !window.emmet ) require(["emmet.min"]);
     });
 
     return [{

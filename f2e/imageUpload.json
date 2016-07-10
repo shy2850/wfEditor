@@ -1,0 +1,8 @@
+{
+    "state": "SUCCESS",
+    "url" : {
+    	"original": "<%=request.$.title.replace(/[^\/]+$/, '')%><%=request.files[0].file.name%>",
+    	"small": "<%=request.$.title.replace(/[^\/]+$/, '')%><%=request.files[0].file.name%>",
+    	"middle": "<%=request.$.title.replace(/[^\/]+$/, '')%><%=request.files[0].file.name%>"
+    }
+}
